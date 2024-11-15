@@ -9,6 +9,13 @@ public class Users {
     private String role;
     private LocalDateTime createAt;
 
+    public Users(Long user_id, String username, String password, String role) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     public Long getUser_id() {
         return user_id;
     }
