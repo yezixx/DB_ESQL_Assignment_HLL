@@ -1,4 +1,5 @@
 import menu.Join;
+import menu.Login;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,11 +22,10 @@ public class Main {
             input = br.readLine();
             switch (input){
                 case "1":
-                    Join join = new Join();
-                    join.join();
+                    new Join().join();
                     break;
                 case "2":
-                    System.out.println("로그인 선택");
+                    new Login().login();
                     break;
                 case "3":
                     System.out.println("=========================================");
