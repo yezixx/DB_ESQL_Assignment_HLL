@@ -4,10 +4,14 @@ import java.time.LocalDateTime;
 
 public class Users {
     private Long user_id;
-    private String username;
+    private String username; // 유저의 아이디
     private String password;
+    private String name; // 유저의 이름
     private String role;
     private LocalDateTime createAt;
+
+    public Users() {
+    }
 
     public Users(Long user_id, String username, String password, String role) {
         this.user_id = user_id;
@@ -38,6 +42,14 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRole() {
