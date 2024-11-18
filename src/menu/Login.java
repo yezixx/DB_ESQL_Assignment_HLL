@@ -30,14 +30,30 @@ public class Login {
         password = br.readLine();
         if(password.toLowerCase().equals("q"))
             return;
-        Users users = findUser(id, password);
-            if(users!=null/*아이디와 패스워드가 db에 저장된 정보와 일치하면*/) {
+        Users user = findUser(id, password);
+            if(user!=null/*아이디와 패스워드가 db에 저장된 정보와 일치하면*/) {
                 System.out.println("로그인이 완료됐습니다.");
                 System.out.println("=========================================");
                 // 로그인 이후 메뉴 표시
                 // 유저가 점장 -> 점장메뉴
+                if(user.getRole().equals("점장")){
+                    ManagerMenu mm = new ManagerMenu(user);
+                    mm.selectMenu();
+                    break;
+                }
                 // 유저가 직원 -> 직원메뉴
-                break;
+                else if(user.getRole().equals("직원")) {
+                    EmployeeMenu em = new EmployeeMenu(user);
+                    em.selectMenu();
+                    break;
+                }
+                // 이상한 데이터 들어갔을 경우 -> 종료
+                else{
+                    System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+                    System.out.println("존재하지 않는 직급입니다. DB 확인 필요");
+                    System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+                    break;
+                }
             }
             else {
                 System.out.println("+++++++++++++++++++++++++++++++++++++++++");
