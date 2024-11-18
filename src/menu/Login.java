@@ -54,14 +54,8 @@ public class Login {
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
 
         // 데이터베이스에서 아이디와 비밀번호 일치하는 유저 찾음
-        try {
-            // JDBC 드라이버 로드
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // DB 연결
-            Connection conn = DriverManager.getConnection(DBConfig.DB_URL, DBConfig.DB_USER, DBConfig.DB_PASSWORD);
-
-            PreparedStatement stmt = conn.prepareStatement(query);
+        try (Connection conn = DBConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) { // 리소스 자동 관리(try-with-resources)
 
             // PreparedStatement에 파라미터 설정
             stmt.setString(1, username);

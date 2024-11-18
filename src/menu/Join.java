@@ -76,14 +76,8 @@ public class Join {
         // 쿼리문
         String query = "INSERT INTO users (username, password, name, role, create_at) VALUES (?, ?, ?, ?, NOW())";
 
-        try {
-            // JDBC 드라이버 로드
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // DB 연결
-            Connection conn = DriverManager.getConnection(DBConfig.DB_URL, DBConfig.DB_USER, DBConfig.DB_PASSWORD);
-
-            PreparedStatement stmt = conn.prepareStatement(query);
+        try (Connection conn = DBConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
             // PreparedStatement에 파라미터 설정
             stmt.setString(1, id);         // username
