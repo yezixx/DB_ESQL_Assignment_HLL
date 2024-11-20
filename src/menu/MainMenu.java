@@ -59,7 +59,11 @@ public class MainMenu {
                 "CREATE TABLE IF NOT EXISTS Stores (" +
                         "    store_id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
                         "    store_name VARCHAR(255) NOT NULL, " +
-                        "    address VARCHAR(255) NOT NULL" +
+                        "    address VARCHAR(255) NOT NULL, " +
+                        "    manager BIGINT NOT NULL, " +
+                        "    CONSTRAINT fk_stores_manager " +
+                        "        FOREIGN KEY (manager) REFERENCES users(user_id) " +
+                        "        ON DELETE CASCADE" +
                         ");",
                 "CREATE TABLE IF NOT EXISTS Employee (" +
                         "    employee_id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
