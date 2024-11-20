@@ -4,6 +4,7 @@ public class Stores {
     private Long store_id;
     private String store_name; // 매장 이름
     private String address;
+    private Long manager;
 
     public Long getStore_id() {
         return store_id;
@@ -27,5 +28,13 @@ public class Stores {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Long getManager() {
+        return manager;
+    }
+
+    public void setManager(Long manager) {
+        this.manager = manager;
     }
 }
