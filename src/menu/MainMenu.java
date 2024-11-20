@@ -72,13 +72,6 @@ public class MainMenu {
                         "    FOREIGN KEY (user_id) REFERENCES Users(user_id), " +
                         "    FOREIGN KEY (store_id) REFERENCES Stores(store_id)" +
                         ");",
-                "CREATE TABLE IF NOT EXISTS EmployeeStores ( " +
-                        "    employee_id BIGINT NOT NULL, " +
-                        "    store_id BIGINT NOT NULL, " +
-                        "    PRIMARY KEY (employee_id, store_id), " +
-                        "    FOREIGN KEY (employee_id) REFERENCES Employee(employee_id), " +
-                        "    FOREIGN KEY (store_id) REFERENCES Stores(store_id)" +
-                        ");",
                 "CREATE TABLE IF NOT EXISTS AttendanceRecords ( " +
                         "    record_id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
                         "    employee_id BIGINT NOT NULL, " +
