@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -57,22 +56,29 @@ public class ManagerMenu {
         }
     }
 
-    private void readAttendance() throws IOException{
+    private void readAttendance() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Long empId;
 
         System.out.println("=========================================");
         System.out.println("직원 목록");
         System.out.println("-----------------------------------------");
+
         // 직원 목록 출력
-        printEmpList();
+        if (!printEmpList()) {
+            // 직원이 없으면 메소드 종료
+            return;
+        }
+
         System.out.println("-----------------------------------------");
         System.out.print("출퇴근 기록 확인할 직원 ID: ");
         String inputId = br.readLine();
-        while(!isDisit(inputId)){
+
+        while (!isDigit(inputId)) {
             System.out.print("출퇴근 기록 확인할 직원 ID: ");
             inputId = br.readLine();
         }
+
         empId = Long.parseLong(inputId);
         // 직원 출퇴근 기록 조회
         getAttendanceRecord(empId);
@@ -141,7 +147,7 @@ public class ManagerMenu {
         System.out.println("-----------------------------------------");
         System.out.print("수정할 매장의 ID: ");
         String inputId = br.readLine();
-        while(!isDisit(inputId)){
+        while(!isDigit(inputId)){
             System.out.print("수정할 매장의 ID: ");
             inputId = br.readLine();
         }
@@ -171,7 +177,7 @@ public class ManagerMenu {
         System.out.println("-----------------------------------------");
         System.out.print("삭제할 매장의 ID: ");
         String inputId = br.readLine();
-        while(!isDisit(inputId)){
+        while(!isDigit(inputId)){
             System.out.print("삭제할 매장의 ID: ");
             inputId = br.readLine();
         }
@@ -186,7 +192,7 @@ public class ManagerMenu {
         deleteStore(deletedStore.getStore_id());
     }
     // ================= 쿼리 =================
-    private void printEmpList(){
+    private boolean printEmpList() {
         String selectQuery =
                 "SELECT DISTINCT u.user_id, u.name " +
                         "FROM users u " +
@@ -217,11 +223,14 @@ public class ManagerMenu {
                     System.out.println("운영하는 매장에 소속된 직원이 없습니다.");
                     System.out.println("+++++++++++++++++++++++++++++++++++++++++");
                 }
+
+                return hasResult; // 직원이 있으면 true 반환
             }
         } catch (Exception e) {
             System.out.println("+++++++++++++++++++++++++++++++++++++++++");
             System.err.println("오류 발생: " + e.getMessage());
             System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+            return false; // 예외 발생시 false 반환
         }
     }
 
@@ -337,7 +346,7 @@ public class ManagerMenu {
                         "WHERE store_id = ? " +
                         "AND manager = ? " +
                         "AND NOT EXISTS (" +
-                        "    SELECT 1 FROM employeestores es WHERE es.store_id = stores.store_id" +
+                        "    SELECT 1 FROM employee e WHERE e.store_id = stores.store_id" +
                         ")"; // 해당 매장에 근무 중인 직원이 없을 경우에만 삭제
 
         try (Connection conn = DBConfig.getConnection();
@@ -418,7 +427,7 @@ public class ManagerMenu {
                 .orElse(null); // 일치하는 항목이 없으면 null 반환
     }
 
-    private boolean isDisit(String num){
+    private boolean isDigit(String num){
         boolean result=false;
         try{
             Long.parseLong(num);
